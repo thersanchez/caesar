@@ -13,11 +13,12 @@ func caesar(r rune, n int) rune {
 	return 'A'
 }
 
-//
+/*
 
 func testCaesar() {
 	if 
 }
+*/
 
 func mustTranslate(r rune) bool {
 	for i:=0; i<len(validRunes); i++ {
@@ -49,10 +50,10 @@ func testMustTrasnslateOrdinaryLetters() {
 }
 
 func testMustTranslateWeirdLetters() {
-	ok := [...]rune{'.', ',', ' ', '4', 'á'}
-	for i:=0; i<len(ok); i++ {
-		if mustTranslate(ok[i]) {
-			log.Fatalf("testMustTranslatedWeirdLetters failed: %q\n", ok[i])
+	ko := [...]rune{'.', ',', ' ', '4', 'á'}
+	for i:=0; i<len(ko); i++ {
+		if mustTranslate(ko[i]) {
+			log.Fatalf("testMustTranslatedWeirdLetters failed: %q\n", ko[i])
 		}
 	}
 }
