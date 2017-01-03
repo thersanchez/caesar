@@ -13,12 +13,61 @@ func caesar(r rune, n int) rune {
 	return 'A'
 }
 
-/*
 
-func testCaesar() {
-	if 
+func testCaesarZero() {
+	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
+	for i:=0; i<len(inputs); i++ {
+		input := inputs[i]
+		expected := input
+		obtained := caesar(input, 0)
+		if obtained != expected {
+			log.Printf("testCaesarZero failed: input=%q, expected=%q, obtained=%q",
+				input, expected, obtained)
+		}
+	}
 }
-*/
+
+func testCaesarNormal() {
+	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
+	expecteds := [...]rune{'d', 'e', 'b', 'c', 'D', 'E', 'B', 'C'}
+	for i:=0; i<len(inputs); i++ {
+		input := inputs[i]
+		expected := expecteds[i]
+		obtained := caesar(input, 3)
+		if obtained != expected {
+			log.Printf("testCaesarNormal failed: input=%q, expected=%q, obtained=%q",
+				input, expected, obtained)
+		}
+	}
+}
+
+func testCaesarNegative() {
+	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
+	expecteds := [...]rune{'x', 'y', 'v', 'w', 'X', 'Y', 'V', 'W'}
+	for i:=0; i<len(inputs); i++ {
+		input := inputs[i]
+		expected := expecteds[i]
+		obtained := caesar(input,-3)
+		if obtained != expected {
+			log.Printf("testCaesarNegative failed: input=%q, expected=%q, obtained=%q",
+				input, expected, obtained)
+		}
+	}
+}
+
+func testCaesarBig() {
+	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
+	expecteds := [...]rune{'n', 'o', 'l', 'm', 'N', 'O', 'L', 'M'} // 13
+	for i:=0; i<len(inputs); i++ {
+		input := inputs[i]
+		expected := expecteds[i]
+		obtained := caesar(input,5525) // 5525 % 26 = 13
+		if obtained != expected {
+			log.Printf("testCaesarBig failed: input=%q, expected=%q, obtained=%q",
+				input, expected, obtained)
+		}
+	}
+}
 
 func mustTranslate(r rune) bool {
 	for i:=0; i<len(validRunes); i++ {
@@ -38,6 +87,10 @@ var validRunes = [...]rune{
 func test() {
 	testMustTrasnslateOrdinaryLetters()
 	testMustTranslateWeirdLetters()
+	testCaesarZero()
+	testCaesarNormal()
+	testCaesarNegative()
+	testCaesarBig()
 }
 
 func testMustTrasnslateOrdinaryLetters() {
