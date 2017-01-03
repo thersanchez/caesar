@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math"
 )
 
 func main() {
@@ -10,7 +11,16 @@ func main() {
 
 
 func caesar(r rune, n int) rune {
-	return 'A'
+	i := int(r) + n
+	if i < 0 {
+		log.Fatalf("cannot convert negative number to rune, was %d",
+			i)
+	}
+	if i > math.MaxInt32 {
+		log.Fatalf("cannot convert to rune: number too big, was %d",
+			i)
+	}
+	return rune(i)
 }
 
 
