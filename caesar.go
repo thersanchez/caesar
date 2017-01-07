@@ -2,27 +2,79 @@ package main
 
 import (
 	"log"
-	"math"
 )
 
 func main() {
 	test()
 }
 
-
+// Function caesar apply a Caesar cypher with the key n to the rune r.
+// E.g.: caesar('a', 3) → 'd'.
 func caesar(r rune, n int) rune {
-	i := int(r) + n
-	if i < 0 {
-		log.Fatalf("cannot convert negative number to rune, was %d",
-			i)
+	// Turns a negative n into its equivalent modulo 26 positive n.
+	// eg: -1 → 25
+	if n<0 {
+		n = 26+(n % 26)
 	}
-	if i > math.MaxInt32 {
-		log.Fatalf("cannot convert to rune: number too big, was %d",
-			i)
+
+	// Cyphering is independent of the input letter case,
+	// therefore we cypher the offset of the letter from it base ('A' or 'a')
+	// and apply the cyphered offset back to the base at the end.
+	offset := offsetFromA(r)
+	cypheredOffset := (offset + n) % 26
+
+	base := 'a'
+	if isUppercase(r) {
+		base = 'A'
 	}
-	return rune(i)
+	return base + rune(cypheredOffset)
 }
 
+// Function offsetFromA of a rune r returns the distance between r and 'A' (or 'a').
+// If r is not a letter, the program exits in error.
+func offsetFromA(r rune) int {
+	if isUppercase(r) {
+		return int(r-'A')
+	}
+	if isLowercase(r) {
+		return int(r-'a')
+	}
+	log.Fatal("offsetFromA needs a letter")
+	return 0 // unreachable
+}
+
+func isUppercase(r rune) bool {
+	return r>='A' && r<='Z'
+}
+
+func isLowercase(r rune) bool {
+	return r>='a' && r<='z'
+}
+
+// Function mustTranslate returns true if r is a letter.
+func mustTranslate(r rune) bool {
+	for i:=0; i<len(validRunes); i++ {
+		if r==validRunes[i] {
+			return true
+		}
+	}
+	return false
+}
+
+var validRunes = [...]rune{
+	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+}
+
+func test() {
+	testMustTrasnslateOrdinaryLetters()
+	testMustTranslateWeirdLetters()
+	testCaesarZero()
+	testCaesarNormal()
+	testCaesarNegative()
+	testCaesarBig()
+	testCaesarNegativeBig()
+}
 
 func testCaesarZero() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
@@ -79,28 +131,18 @@ func testCaesarBig() {
 	}
 }
 
-func mustTranslate(r rune) bool {
-	for i:=0; i<len(validRunes); i++ {
-		if r==validRunes[i] {
-			return true
+func testCaesarNegativeBig() {
+	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
+	expecteds := [...]rune{'n', 'o', 'l', 'm', 'N', 'O', 'L', 'M'}
+	for i:=0; i<len(inputs); i++ {
+		input := inputs[i]
+		expected := expecteds[i]
+		obtained := caesar(input,-5525)
+		if obtained != expected {
+			log.Printf("testCaesarNegativeBig failed: input=%q, expected=%q, obtained=%q",
+				input, expected, obtained)
 		}
 	}
-	return false
-}
-
-var validRunes = [...]rune{
-	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-}
-
-
-func test() {
-	testMustTrasnslateOrdinaryLetters()
-	testMustTranslateWeirdLetters()
-	testCaesarZero()
-	testCaesarNormal()
-	testCaesarNegative()
-	testCaesarBig()
 }
 
 func testMustTrasnslateOrdinaryLetters() {
