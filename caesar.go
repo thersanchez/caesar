@@ -2,15 +2,60 @@ package main
 
 import (
 	"log"
+	"fmt"
+	"os"
+	"strconv"
 )
 
 func main() {
 	test()
+
+	var text string
+	var n int
+	var err error
+
+	switch len(os.Args) {
+	case 2:
+		text = os.Args[1]
+		n = 3
+	case 3:
+		text = os.Args[2]
+		n, err = strconv.Atoi(os.Args[1])
+		if err != nil {
+			fmt.Printf("Wrong number: %s.\n", err)
+			usage()
+			os.Exit(1)
+		}
+	default:
+		fmt.Println("Wrong number of arguments.")
+		usage()
+		os.Exit(1)
+	}
+
+	fmt.Println(caesarStr(text, n))
 }
 
-// Function caesar apply a Caesar cypher with the key n to the rune r.
+func usage() {
+	fmt.Println("Usage:")
+	fmt.Println("\tcaesar [n] text")
+}
+
+func caesarStr(s string, n int) string {
+	ret := make([]rune, len(s))
+	for i, r := range s {
+		ret[i] = caesar(r, n)
+	}
+	return string(ret)
+}
+
+// Function caesar apply a Caesar cypher with the key n to the letter r.
 // E.g.: caesar('a', 3) → 'd'.
+// If r is not a letter, the rune is returned unchanged.
 func caesar(r rune, n int) rune {
+	if !mustTranslate(r) {
+		return r
+	}
+
 	// Turns a negative n into its equivalent modulo 26 positive n.
 	// eg: -1 → 25
 	if n<0 {
