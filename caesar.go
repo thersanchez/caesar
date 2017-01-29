@@ -22,7 +22,7 @@ func main() {
 		text = os.Args[2]
 		n, err = strconv.Atoi(os.Args[1])
 		if err != nil {
-			fmt.Printf("Wrong number: %s.\n", err)
+			fmt.Printf("Cannot translate n: %s.\n", err)
 			usage()
 			os.Exit(1)
 		}
