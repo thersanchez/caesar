@@ -101,17 +101,14 @@ func mustCypher(r rune) bool {
 }
 
 func isLetter(r rune) bool {
-	for i := 0; i < len(validRunes); i++ {
-		if r == validRunes[i] {
-			return true
-		}
+	switch {
+	case r >= 'A' && r <= 'Z':
+		return true
+	case r >= 'a' && r <= 'z':
+		return true
+	default:
+		return false
 	}
-	return false
-}
-
-var validRunes = [...]rune{
-	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 }
 
 func test() {
