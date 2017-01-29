@@ -96,8 +96,11 @@ func isLowercase(r rune) bool {
 	return r >= 'a' && r <= 'z'
 }
 
-// Function mustCypher returns true if r is a letter.
 func mustCypher(r rune) bool {
+	return isLetter(r)
+}
+
+func isLetter(r rune) bool {
 	for i := 0; i < len(validRunes); i++ {
 		if r == validRunes[i] {
 			return true
