@@ -194,7 +194,7 @@ func testCaesarRuneNegativeBig() {
 }
 
 func testMustCypherOrdinaryLetters() {
-	ok := [...]rune{'a', 'A', 'z', 'Z'}
+	ok := [...]rune{'A', 'P', 'Z', 'a', 'p', 'z'}
 	for i := 0; i < len(ok); i++ {
 		if !mustCypher(ok[i]) {
 			log.Fatalf("testMustTranslateOrdinaryLetters failed: %q\n", ok[i])
@@ -203,7 +203,7 @@ func testMustCypherOrdinaryLetters() {
 }
 
 func testMustCypherWeirdLetters() {
-	ko := [...]rune{'.', ',', ' ', '4', 'á'}
+	ko := [...]rune{'3', '@', '[', '`', '{', '¡'}
 	for i := 0; i < len(ko); i++ {
 		if mustCypher(ko[i]) {
 			log.Fatalf("testMustTranslatedWeirdLetters failed: %q\n", ko[i])
