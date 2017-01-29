@@ -32,7 +32,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(caesarStr(text, n))
+	fmt.Println(caesar(text, n))
 }
 
 func usage() {
@@ -40,18 +40,18 @@ func usage() {
 	fmt.Println("\tcaesar [n] text")
 }
 
-func caesarStr(s string, n int) string {
+func caesar(s string, n int) string {
 	ret := make([]rune, len(s))
 	for i, r := range s {
-		ret[i] = caesar(r, n)
+		ret[i] = caesarRune(r, n)
 	}
 	return string(ret)
 }
 
-// Function caesar apply a Caesar cypher with the key n to the letter r.
-// E.g.: caesar('a', 3) → 'd'.
+// Function caesarRune apply a Caesar cypher with the key n to the letter r.
+// E.g.: caesarRune('a', 3) → 'd'.
 // If r is not a letter, the rune is returned unchanged.
-func caesar(r rune, n int) rune {
+func caesarRune(r rune, n int) rune {
 	if !mustCypher(r) {
 		return r
 	}
@@ -112,21 +112,21 @@ var validRunes = [...]rune{
 }
 
 func test() {
-	testMustTrasnslateOrdinaryLetters()
-	testMustTranslateWeirdLetters()
-	testCaesarZero()
-	testCaesarNormal()
-	testCaesarNegative()
-	testCaesarBig()
-	testCaesarNegativeBig()
+	testMustCypherOrdinaryLetters()
+	testMustCypherWeirdLetters()
+	testCaesarRuneZero()
+	testCaesarRuneThree()
+	testCaesarRuneNegative()
+	testCaesarRuneBig()
+	testCaesarRuneNegativeBig()
 }
 
-func testCaesarZero() {
+func testCaesarRuneZero() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := input
-		obtained := caesar(input, 0)
+		obtained := caesarRune(input, 0)
 		if obtained != expected {
 			log.Printf("testCaesarZero failed: input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -134,13 +134,13 @@ func testCaesarZero() {
 	}
 }
 
-func testCaesarNormal() {
+func testCaesarRuneThree() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	expecteds := [...]rune{'d', 'e', 'b', 'c', 'D', 'E', 'B', 'C'}
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesar(input, 3)
+		obtained := caesarRune(input, 3)
 		if obtained != expected {
 			log.Printf("testCaesarNormal failed: input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -148,13 +148,13 @@ func testCaesarNormal() {
 	}
 }
 
-func testCaesarNegative() {
+func testCaesarRuneNegative() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	expecteds := [...]rune{'x', 'y', 'v', 'w', 'X', 'Y', 'V', 'W'}
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesar(input, -3)
+		obtained := caesarRune(input, -3)
 		if obtained != expected {
 			log.Printf("testCaesarNegative failed: input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -162,13 +162,13 @@ func testCaesarNegative() {
 	}
 }
 
-func testCaesarBig() {
+func testCaesarRuneBig() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	expecteds := [...]rune{'n', 'o', 'l', 'm', 'N', 'O', 'L', 'M'} // 13
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesar(input, 5525) // 5525 % 26 = 13
+		obtained := caesarRune(input, 5525) // 5525 % 26 = 13
 		if obtained != expected {
 			log.Printf("testCaesarBig failed: input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -176,13 +176,13 @@ func testCaesarBig() {
 	}
 }
 
-func testCaesarNegativeBig() {
+func testCaesarRuneNegativeBig() {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	expecteds := [...]rune{'n', 'o', 'l', 'm', 'N', 'O', 'L', 'M'}
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesar(input, -5525)
+		obtained := caesarRune(input, -5525)
 		if obtained != expected {
 			log.Printf("testCaesarNegativeBig failed: input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -190,7 +190,7 @@ func testCaesarNegativeBig() {
 	}
 }
 
-func testMustTrasnslateOrdinaryLetters() {
+func testMustCypherOrdinaryLetters() {
 	ok := [...]rune{'a', 'A', 'z', 'Z'}
 	for i := 0; i < len(ok); i++ {
 		if !mustCypher(ok[i]) {
@@ -199,7 +199,7 @@ func testMustTrasnslateOrdinaryLetters() {
 	}
 }
 
-func testMustTranslateWeirdLetters() {
+func testMustCypherWeirdLetters() {
 	ko := [...]rune{'.', ',', ' ', '4', 'á'}
 	for i := 0; i < len(ko); i++ {
 		if mustCypher(ko[i]) {
