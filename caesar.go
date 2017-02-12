@@ -65,35 +65,27 @@ func caesarRune(r rune, n int) rune {
 	// Cyphering is independent of the input letter case,
 	// therefore we cypher the offset of the letter from it base ('A' or 'a')
 	// and apply the cyphered offset back to the base at the end.
-	offset := offsetFromA(r)
-	cypheredOffset := (offset + n) % 26
+	index := alphabeticIndex(r)
+	cypheredIndex := (index + n) % 26
 
 	base := 'a'
 	if isUppercase(r) {
 		base = 'A'
 	}
-	return base + rune(cypheredOffset)
+	return base + rune(cypheredIndex)
 }
 
-// Function offsetFromA of a rune r returns the distance between r and 'A' (or 'a').
-// If r is not a letter, the program exits in error.
-func offsetFromA(r rune) int {
+// Function alphabeticIndex returns the Unicode distance between r and 'A' (or
+// 'a') or an unspecified number if r is not a letter.
+func alphabeticIndex(r rune) int {
 	if isUppercase(r) {
 		return int(r - 'A')
 	}
-	if isLowercase(r) {
-		return int(r - 'a')
-	}
-	log.Fatal("offsetFromA needs a letter")
-	return 0 // unreachable
+	return int(r - 'a')
 }
 
 func isUppercase(r rune) bool {
 	return r >= 'A' && r <= 'Z'
-}
-
-func isLowercase(r rune) bool {
-	return r >= 'a' && r <= 'z'
 }
 
 func mustCypher(r rune) bool {
