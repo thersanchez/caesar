@@ -63,7 +63,7 @@ func caesarRune(r rune, n int) rune {
 	}
 
 	// Cyphering is independent of the input letter case,
-	// therefore we cypher the offset of the letter from it base ('A' or 'a')
+	// therefore we cypher the offset of the letter from its base ('A' or 'a')
 	// and apply the cyphered offset back to the base at the end.
 	index := alphabeticIndex(r)
 	cypheredIndex := (index + n) % 26
