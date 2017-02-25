@@ -1,46 +1,9 @@
 package caesar
 
-import (
-	"fmt"
-	"os"
-	"strconv"
-)
-
-func main() {
-	var text string
-	var n int
-	var err error
-
-	switch len(os.Args) {
-	case 2:
-		text = os.Args[1]
-		n = 3
-	case 3:
-		text = os.Args[2]
-		n, err = strconv.Atoi(os.Args[1])
-		if err != nil {
-			fmt.Printf("Cannot translate n: %s.\n", err)
-			usage()
-			os.Exit(1)
-		}
-	default:
-		fmt.Println("Wrong number of arguments.")
-		usage()
-		os.Exit(1)
-	}
-
-	fmt.Println(caesar(text, n))
-}
-
-func usage() {
-	fmt.Println("Usage:")
-	fmt.Println("\tcaesar [n] text")
-}
-
-func caesar(s string, n int) string {
+func Caesar(s string, n int) string {
 	ret := make([]rune, len(s))
 	for i, r := range s {
-		ret[i] = caesarRune(r, n)
+		ret[i] = CaesarRune(r, n)
 	}
 	return string(ret)
 }
@@ -48,7 +11,7 @@ func caesar(s string, n int) string {
 // Function caesarRune apply a Caesar cypher with the key n to the letter r.
 // E.g.: caesarRune('a', 3) → 'd'.
 // If r is not a letter, the rune is returned unchanged.
-func caesarRune(r rune, n int) rune {
+func CaesarRune(r rune, n int) rune {
 	if !mustCypher(r) {
 		return r
 	}

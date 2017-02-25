@@ -7,7 +7,7 @@ func TestCaesarRuneZero(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := input
-		obtained := caesarRune(input, 0)
+		obtained := CaesarRune(input, 0)
 		if obtained != expected {
 			t.Errorf("input=%q, expected=%q, obtained=%q\n",
 				input, expected, obtained)
@@ -22,7 +22,7 @@ func TestCaesarRuneThree(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesarRune(input, 3)
+		obtained := CaesarRune(input, 3)
 		if obtained != expected {
 			t.Errorf("input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -36,7 +36,7 @@ func TestCaesarRuneNegative(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesarRune(input, -3)
+		obtained := CaesarRune(input, -3)
 		if obtained != expected {
 			t.Errorf("input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -50,7 +50,7 @@ func TestCaesarRuneBig(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesarRune(input, 5525) // 5525 % 26 = 13
+		obtained := CaesarRune(input, 5525) // 5525 % 26 = 13
 		if obtained != expected {
 			t.Errorf("input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
@@ -64,7 +64,7 @@ func TestCaesarRuneNegativeBig(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		expected := expecteds[i]
-		obtained := caesarRune(input, -5525)
+		obtained := CaesarRune(input, -5525)
 		if obtained != expected {
 			t.Errorf("input=%q, expected=%q, obtained=%q",
 				input, expected, obtained)
