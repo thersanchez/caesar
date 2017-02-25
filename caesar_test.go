@@ -2,6 +2,28 @@ package caesar
 
 import "testing"
 
+func TestCaesar(t *testing.T) {
+	input := "esther#.79: Alberto"
+	n := 1
+	expected := "ftuifs#.79: Bmcfsup"
+	obtained := Caesar(input, n)
+	if obtained != expected {
+		t.Errorf("expected=%q, obtained=%q", expected,
+			obtained)
+	}
+}
+
+func TestCaesarEmptyInput(t *testing.T) {
+	input := ""
+	n := 1
+	expected := ""
+	obtained := Caesar(input, n)
+	if obtained != expected {
+		t.Errorf("expected=%q, obtained=%q", expected,
+			obtained)
+	}
+}
+
 func TestCaesarRuneZero(t *testing.T) {
 	inputs := [...]rune{'a', 'b', 'y', 'z', 'A', 'B', 'Y', 'Z'}
 	for i := 0; i < len(inputs); i++ {
@@ -72,20 +94,11 @@ func TestCaesarRuneNegativeBig(t *testing.T) {
 	}
 }
 
-func TestMustCypherOrdinaryLetters(t *testing.T) {
-	ok := [...]rune{'A', 'P', 'Z', 'a', 'p', 'z'}
-	for i := 0; i < len(ok); i++ {
-		if !mustCypher(ok[i]) {
-			t.Errorf("%q\n", ok[i])
-		}
-	}
-}
-
-func TestMustCypherWeirdLetters(t *testing.T) {
-	ko := [...]rune{'3', '@', '[', '`', '{', '¡'}
-	for i := 0; i < len(ko); i++ {
-		if mustCypher(ko[i]) {
-			t.Errorf("%q\n", ko[i])
+func TestCaesarRuneIgnoresWeirdRunes(t *testing.T) {
+	weirds := [...]rune{'3', ' ', '@', '[', '`', '{', '¡'}
+	for i := 0; i < len(weirds); i++ {
+		if CaesarRune(weirds[i], 3) != weirds[i] {
+			t.Errorf("%q\n", weirds[i])
 		}
 	}
 }
