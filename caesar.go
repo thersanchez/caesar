@@ -1,17 +1,17 @@
 package caesar
 
-func Caesar(s string, n int) string {
+func String(s string, n int) string {
 	ret := make([]rune, len(s))
 	for i, r := range s {
-		ret[i] = CaesarRune(r, n)
+		ret[i] = Rune(r, n)
 	}
 	return string(ret)
 }
 
-// Function caesarRune apply a Caesar cypher with the key n to the letter r.
+// Function Rune apply a Caesar cypher with the key n to the letter r.
 // E.g.: caesarRune('a', 3) → 'd'.
 // If r is not a letter, the rune is returned unchanged.
-func CaesarRune(r rune, n int) rune {
+func Rune(r rune, n int) rune {
 	if !mustCypher(r) {
 		return r
 	}
