@@ -1,5 +1,10 @@
+// Package caesar implements functions to calculate the Caesar cyphering of
+// runes and strings.
+//
+// Non-letter runes ('3', ' ', '.'...) are left untouched.
 package caesar
 
+// String returns s cyphered with the key n.
 func String(s string, n int) string {
 	ret := make([]rune, len(s))
 	for i, r := range s {
@@ -8,9 +13,7 @@ func String(s string, n int) string {
 	return string(ret)
 }
 
-// Function Rune apply a Caesar cypher with the key n to the letter r.
-// E.g.: caesarRune('a', 3) → 'd'.
-// If r is not a letter, the rune is returned unchanged.
+// Rune returns r cyphered with the key n.
 func Rune(r rune, n int) rune {
 	if !mustCypher(r) {
 		return r
