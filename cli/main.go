@@ -31,7 +31,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(caesar.Caesar(text, n))
+	fmt.Println(caesar.String(text, n))
 }
 
 func usage() {
